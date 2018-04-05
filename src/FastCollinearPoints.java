@@ -35,6 +35,7 @@ public class FastCollinearPoints {
 //            StdOut.println("p " + p);
             Comparator<Point> comparator = p.slopeOrder();
             Point[] pointsSortedUsingSlopeOrder = Arrays.copyOf(sortedPoints, sortedPoints.length);
+            Arrays.sort(pointsSortedUsingSlopeOrder, 0, i, comparator);
             Arrays.sort(pointsSortedUsingSlopeOrder, i + 1, pointsSortedUsingSlopeOrder.length, comparator);
             int j = i + 1;
             while (j < pointsSortedUsingSlopeOrder.length) {
@@ -52,6 +53,15 @@ public class FastCollinearPoints {
                         lineSegment = new LineSegment(p, pointsSortedUsingSlopeOrder[k]);
                     }
                     ++k;
+                }
+                if (lineSegment != null) {
+                    for (int index = 0; index < i; ++index) {
+                        Point point = pointsSortedUsingSlopeOrder[index];
+                        if (p.slopeTo(point) == slope) {
+//                            StdOut.println("segment " + lineSegment + " part of greater one with point " + point);
+                            lineSegment = null;
+                        }
+                    }
                 }
                 if (lineSegment != null) {
 //                    StdOut.println("store segment " + lineSegment);
