@@ -32,25 +32,32 @@ public class FastCollinearPoints {
 
         for (int i = 0; i < sortedPoints.length; i++) {
             Point p = sortedPoints[i];
-//            StdOut.println("i " + i);
 //            StdOut.println("p " + p);
             Comparator<Point> comparator = p.slopeOrder();
             Point[] pointsSortedUsingSlopeOrder = Arrays.copyOf(sortedPoints, sortedPoints.length);
             Arrays.sort(pointsSortedUsingSlopeOrder, i + 1, pointsSortedUsingSlopeOrder.length, comparator);
-            for (int j = i + 1; j < pointsSortedUsingSlopeOrder.length; j++) {
+            int j = i + 1;
+            while (j < pointsSortedUsingSlopeOrder.length) {
                 Point q = pointsSortedUsingSlopeOrder[j];
-//                StdOut.println("j " + j);
 //                StdOut.println("q " + q);
                 double slope = p.slopeTo(q);
 //                StdOut.println("slope " + slope);
                 int sameSlopeCount = 1;
-                for (int k = j + 1; k < pointsSortedUsingSlopeOrder.length && p.slopeTo(pointsSortedUsingSlopeOrder[k]) == slope; k++) {
+                LineSegment lineSegment = null;
+                int k = j + 1;
+                while (k < pointsSortedUsingSlopeOrder.length && p.slopeTo(pointsSortedUsingSlopeOrder[k]) == slope) {
 //                    StdOut.println("same slope for point " + pointsSortedUsingSlopeOrder[k]);
                     if (++sameSlopeCount >= 3) {
 //                        StdOut.println("found segment between " + p + " and " + pointsSortedUsingSlopeOrder[k]);
-                        segmentList.add(new LineSegment(p, pointsSortedUsingSlopeOrder[k]));
+                        lineSegment = new LineSegment(p, pointsSortedUsingSlopeOrder[k]);
                     }
+                    ++k;
                 }
+                if (lineSegment != null) {
+//                    StdOut.println("store segment " + lineSegment);
+                    segmentList.add(lineSegment);
+                }
+                j = k;
             }
         }
 
