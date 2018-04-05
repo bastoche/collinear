@@ -49,7 +49,7 @@ public class FastCollinearPoints {
                     if (k == i || k == j) continue;
 //                    StdOut.println("same slope for index " + k);
                     sameSlopeCount++;
-                    if (sameSlopeCount >= 3) {
+                    if (sameSlopeCount >= 3 && k > i) {
 //                        StdOut.println("found segment between " + p + " and " + sortedPoints[k]);
                         segmentList.add(new LineSegment(p, sortedPoints[k]));
                     }
