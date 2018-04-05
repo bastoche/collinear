@@ -15,26 +15,27 @@ public class BruteCollinearPoints {
                 throw new IllegalArgumentException();
             }
         }
-        Arrays.sort(points);
-        for (int i = 0; i < points.length - 1; i++) {
-            if (points[i].compareTo(points[i + 1]) == 0) {
+        Point[] sortedPoints = Arrays.copyOf(points, points.length);
+        Arrays.sort(sortedPoints);
+        for (int i = 0; i < sortedPoints.length - 1; i++) {
+            if (sortedPoints[i].compareTo(sortedPoints[i + 1]) == 0) {
                 throw new IllegalArgumentException();
             }
         }
 
         List<LineSegment> segmentList = new ArrayList<>();
 
-        for (int i = 0; i < points.length - 3; i++) {
-            Point pi = points[i];
-            for (int j = i + 1; j < points.length - 2; j++) {
-                Point pj = points[j];
+        for (int i = 0; i < sortedPoints.length - 3; i++) {
+            Point pi = sortedPoints[i];
+            for (int j = i + 1; j < sortedPoints.length - 2; j++) {
+                Point pj = sortedPoints[j];
                 double slopeIJ = pi.slopeTo(pj);
-                for (int k = j + 1; k < points.length - 1; k++) {
-                    Point pk = points[k];
+                for (int k = j + 1; k < sortedPoints.length - 1; k++) {
+                    Point pk = sortedPoints[k];
                     double slopeJK = pj.slopeTo(pk);
                     if (slopeIJ != slopeJK) continue;
-                    for (int l = k + 1; l < points.length; l++) {
-                        Point pl = points[l];
+                    for (int l = k + 1; l < sortedPoints.length; l++) {
+                        Point pl = sortedPoints[l];
                         double slopeKL = pk.slopeTo(pl);
                         if (slopeIJ == slopeJK && slopeJK == slopeKL) {
                             segmentList.add(new LineSegment(pi, pl));

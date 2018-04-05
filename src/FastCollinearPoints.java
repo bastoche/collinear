@@ -20,37 +20,38 @@ public class FastCollinearPoints {
                 throw new IllegalArgumentException();
             }
         }
-        Arrays.sort(points);
-        for (int i = 0; i < points.length - 1; i++) {
-            if (points[i].compareTo(points[i + 1]) == 0) {
+        Point[] sortedPoints = Arrays.copyOf(points, points.length);
+        Arrays.sort(sortedPoints);
+        for (int i = 0; i < sortedPoints.length - 1; i++) {
+            if (sortedPoints[i].compareTo(sortedPoints[i + 1]) == 0) {
                 throw new IllegalArgumentException();
             }
         }
 
         List<LineSegment> segmentList = new ArrayList<>();
 
-        for (int i = 0; i < points.length; i++) {
-            Point p = points[i];
+        for (int i = 0; i < sortedPoints.length; i++) {
+            Point p = sortedPoints[i];
 //            StdOut.println("i " + i);
 //            StdOut.println("p " + p);
             Comparator<Point> comparator = p.slopeOrder();
-            Arrays.sort(points, 0, i, comparator);
-            Arrays.sort(points, i + 1, points.length, comparator);
-            for (int j = 0; j < points.length - 2; j++) {
+            Arrays.sort(sortedPoints, 0, i, comparator);
+            Arrays.sort(sortedPoints, i + 1, sortedPoints.length, comparator);
+            for (int j = 0; j < sortedPoints.length - 2; j++) {
                 if (j == i) continue;
-                Point q = points[j];
+                Point q = sortedPoints[j];
 //                StdOut.println("j " + j);
 //                StdOut.println("q " + q);
                 double slope = p.slopeTo(q);
 //                StdOut.println("slope " + slope);
                 int sameSlopeCount = 1;
-                for (int k = j + 1; k < points.length && p.slopeTo(points[k]) == slope; k++) {
+                for (int k = j + 1; k < sortedPoints.length && p.slopeTo(sortedPoints[k]) == slope; k++) {
                     if (k == i || k == j) continue;
 //                    StdOut.println("same slope for index " + k);
                     sameSlopeCount++;
                     if (sameSlopeCount >= 3) {
-//                        StdOut.println("found segment between " + p + " and " + points[k]);
-                        segmentList.add(new LineSegment(p, points[k]));
+//                        StdOut.println("found segment between " + p + " and " + sortedPoints[k]);
+                        segmentList.add(new LineSegment(p, sortedPoints[k]));
                     }
                 }
             }

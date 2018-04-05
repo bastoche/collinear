@@ -28,6 +28,15 @@ class FastCollinearPointsTest {
     }
 
     @Test
+    void constructor_noMutation() {
+        Point p0 = new Point(0, 0);
+        Point p1 = new Point(1, 1);
+        Point[] points = {p1, p0};
+        new FastCollinearPoints(points);
+        assertEquals(p1, points[0]);
+    }
+
+    @Test
     void oneSegment() {
         Point p0 = new Point(0, 0);
         Point p1 = new Point(1, 1);

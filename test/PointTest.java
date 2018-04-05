@@ -46,12 +46,14 @@ public class PointTest {
 
     @Test
     void slopeTo_horizontal() {
-        Point point = new Point(0, 0);
-        assertEquals(0, point.slopeTo(new Point(1, 0)));
+        Point p1 = new Point(0, 0);
+        Point p2 = new Point(1, 0);
+        assertEquals(0.0,  p1.slopeTo(p2));
+        assertEquals(0.0,  p2.slopeTo(p1));
     }
 
     @Test
-    void slopeTo_vertical() {
+    void slopeTo_verticalUpwards() {
         Point point = new Point(0, 0);
         assertEquals(Double.POSITIVE_INFINITY, point.slopeTo(new Point(0, 1)));
     }

@@ -3,7 +3,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BruteCollinearPointsTest {
-
     @Test
     void constructor_null() {
         assertThrows(IllegalArgumentException.class, () -> {
@@ -26,6 +25,15 @@ class BruteCollinearPointsTest {
             Point[] points = {repeatedPoint, new Point(1, 1), repeatedPoint};
             new BruteCollinearPoints(points);
         });
+    }
+
+    @Test
+    void constructor_noMutation() {
+        Point p0 = new Point(0, 0);
+        Point p1 = new Point(1, 1);
+        Point[] points = {p1, p0};
+        new BruteCollinearPoints(points);
+        assertEquals(p1, points[0]);
     }
 
     @Test
