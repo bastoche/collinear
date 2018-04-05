@@ -55,12 +55,10 @@ public class FastCollinearPoints {
                     ++k;
                 }
                 if (lineSegment != null) {
-                    for (int index = 0; index < i; ++index) {
-                        Point point = pointsSortedUsingSlopeOrder[index];
-                        if (p.slopeTo(point) == slope) {
-//                            StdOut.println("segment " + lineSegment + " part of greater one with point " + point);
-                            lineSegment = null;
-                        }
+                    int indexOfPointWithSameSlopeAlreadyHandled = Arrays.binarySearch(pointsSortedUsingSlopeOrder, 0, i, q, comparator);
+                    if (indexOfPointWithSameSlopeAlreadyHandled >= 0) {
+//                        StdOut.println("segment " + lineSegment + " part of greater one with point " + pointsSortedUsingSlopeOrder[indexOfPointWithSameSlopeAlreadyHandled]);
+                        lineSegment = null;
                     }
                 }
                 if (lineSegment != null) {
