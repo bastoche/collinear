@@ -25,20 +25,20 @@ public class BruteCollinearPoints {
 
         List<LineSegment> segmentList = new ArrayList<>();
 
-        for (int i = 0; i < sortedPoints.length - 3; i++) {
-            Point pi = sortedPoints[i];
-            for (int j = i + 1; j < sortedPoints.length - 2; j++) {
-                Point pj = sortedPoints[j];
-                double slopeIJ = pi.slopeTo(pj);
-                for (int k = j + 1; k < sortedPoints.length - 1; k++) {
-                    Point pk = sortedPoints[k];
-                    double slopeJK = pj.slopeTo(pk);
-                    if (slopeIJ != slopeJK) continue;
-                    for (int l = k + 1; l < sortedPoints.length; l++) {
-                        Point pl = sortedPoints[l];
-                        double slopeKL = pk.slopeTo(pl);
-                        if (slopeIJ == slopeJK && slopeJK == slopeKL) {
-                            segmentList.add(new LineSegment(pi, pl));
+        for (int index0 = 0; index0 < sortedPoints.length - 3; index0++) {
+            Point p0 = sortedPoints[index0];
+            for (int index1 = index0 + 1; index1 < sortedPoints.length - 2; index1++) {
+                Point p1 = sortedPoints[index1];
+                double slope01 = p0.slopeTo(p1);
+                for (int index2 = index1 + 1; index2 < sortedPoints.length - 1; index2++) {
+                    Point p2 = sortedPoints[index2];
+                    double slope12 = p1.slopeTo(p2);
+                    if (slope01 != slope12) continue;
+                    for (int index3 = index2 + 1; index3 < sortedPoints.length; index3++) {
+                        Point p3 = sortedPoints[index3];
+                        double slope23 = p2.slopeTo(p3);
+                        if (slope01 == slope12 && slope12 == slope23) {
+                            segmentList.add(new LineSegment(p0, p3));
                         }
                     }
                 }
