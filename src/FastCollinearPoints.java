@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FastCollinearPoints {
 
-    private LineSegment[] segments;
+    private final LineSegment[] segments;
 
     public FastCollinearPoints(Point[] points) {
         if (points == null) {
@@ -32,19 +32,24 @@ public class FastCollinearPoints {
         for (int i = 0; i < points.length; i++) {
             Point p = points[i];
 //            StdOut.println("i " + i);
-            StdOut.println("p " + p);
+//            StdOut.println("p " + p);
             Comparator<Point> comparator = p.slopeOrder();
-            Arrays.sort(points, comparator);
+            Arrays.sort(points, 0, i, comparator);
+            Arrays.sort(points, i + 1, points.length, comparator);
             for (int j = 0; j < points.length - 2; j++) {
+                if (j == i) continue;
                 Point q = points[j];
 //                StdOut.println("j " + j);
-                StdOut.println("q " + q);
+//                StdOut.println("q " + q);
                 double slope = p.slopeTo(q);
-                StdOut.println("slope " + slope);
+//                StdOut.println("slope " + slope);
+                int sameSlopeCount = 1;
                 for (int k = j + 1; k < points.length && p.slopeTo(points[k]) == slope; k++) {
-                    StdOut.println("same slope for index " + k);
-                    if (k - j >= 2) {
-                        StdOut.println("found segment between " + p + " and " + points[k]);
+                    if (k == i || k == j) continue;
+//                    StdOut.println("same slope for index " + k);
+                    sameSlopeCount++;
+                    if (sameSlopeCount >= 3) {
+//                        StdOut.println("found segment between " + p + " and " + points[k]);
                         segmentList.add(new LineSegment(p, points[k]));
                     }
                 }
@@ -55,18 +60,12 @@ public class FastCollinearPoints {
         segmentList.toArray(segments);
     }
 
-    private static final <T> void swap(T[] a, int i, int j) {
-        T t = a[i];
-        a[i] = a[j];
-        a[j] = t;
-    }
-
     public int numberOfSegments() {
         return segments.length;
     }
 
     public LineSegment[] segments() {
-        return segments;
+        return Arrays.copyOf(segments, segments.length);
     }
 
     public static void main(String[] args) {

@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class FastCollinearPointsTest {
     @Test
     void constructor_null() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new FastCollinearPoints(null);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+            new FastCollinearPoints(null)
+        );
     }
 
     @Test
@@ -62,7 +62,5 @@ class FastCollinearPointsTest {
         Point[] points = {p0, p1, p2, p3, p4};
         FastCollinearPoints fastCollinearPoints = new FastCollinearPoints(points);
         assertEquals(1, fastCollinearPoints.numberOfSegments());
-//        LineSegment segment = fastCollinearPoints.segments()[0];
-//        assertEquals("toto", segment.toString());
     }
 }
