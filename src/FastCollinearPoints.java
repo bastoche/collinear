@@ -35,23 +35,20 @@ public class FastCollinearPoints {
 //            StdOut.println("i " + i);
 //            StdOut.println("p " + p);
             Comparator<Point> comparator = p.slopeOrder();
-            Arrays.sort(sortedPoints, 0, i, comparator);
-            Arrays.sort(sortedPoints, i + 1, sortedPoints.length, comparator);
-            for (int j = 0; j < sortedPoints.length - 2; j++) {
-                if (j == i) continue;
-                Point q = sortedPoints[j];
+            Point[] pointsSortedUsingSlopeOrder = Arrays.copyOf(sortedPoints, sortedPoints.length);
+            Arrays.sort(pointsSortedUsingSlopeOrder, i + 1, pointsSortedUsingSlopeOrder.length, comparator);
+            for (int j = i + 1; j < pointsSortedUsingSlopeOrder.length; j++) {
+                Point q = pointsSortedUsingSlopeOrder[j];
 //                StdOut.println("j " + j);
 //                StdOut.println("q " + q);
                 double slope = p.slopeTo(q);
 //                StdOut.println("slope " + slope);
                 int sameSlopeCount = 1;
-                for (int k = j + 1; k < sortedPoints.length && p.slopeTo(sortedPoints[k]) == slope; k++) {
-                    if (k == i || k == j) continue;
-//                    StdOut.println("same slope for index " + k);
-                    sameSlopeCount++;
-                    if (sameSlopeCount >= 3 && k > i) {
-//                        StdOut.println("found segment between " + p + " and " + sortedPoints[k]);
-                        segmentList.add(new LineSegment(p, sortedPoints[k]));
+                for (int k = j + 1; k < pointsSortedUsingSlopeOrder.length && p.slopeTo(pointsSortedUsingSlopeOrder[k]) == slope; k++) {
+//                    StdOut.println("same slope for point " + pointsSortedUsingSlopeOrder[k]);
+                    if (++sameSlopeCount >= 3) {
+//                        StdOut.println("found segment between " + p + " and " + pointsSortedUsingSlopeOrder[k]);
+                        segmentList.add(new LineSegment(p, pointsSortedUsingSlopeOrder[k]));
                     }
                 }
             }
